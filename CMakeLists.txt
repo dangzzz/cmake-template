@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.10)
 cmake_policy(VERSION 3.10)
 project(amap)
 
+#SET(CMAKE_BUILD_TYPE "DEBUG")
+SET(CMAKE_C_FLAGS_DEBUG "-DTEMPLATEDEBUG -O0 -g3 -Wall")
+SET(CMAKE_C_FLAGS_RELEASE " -O3 -fno-omit-frame-pointer -fPIC")
+
+
 #make时显式输出执行的命令
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -29,10 +34,16 @@ set_target_properties(${CMAKE_PROJECT_NAME}_static PROPERTIES OUTPUT_NAME "${CMA
 enable_testing()
 
 #只需要在下面一行加入你测试文件的文件名就可以了,测试文件要放在test/src/
-set(testsource xx.c)
+set(testsource )
+string(APPEND testsource $ENV{testsource})
 
 list(LENGTH testsource testsourcelength)
 math(EXPR testsourcelength "${testsourcelength}-1")
+
+if(NOT ${testsource} MATCHES "NOTFOUND")
+list(LENGTH testsource testsourcelength)
+math(EXPR testsourcelength "${testsourcelength}-1")
+
 
 foreach(i  RANGE ${testsourcelength})
 list(GET testsource ${i} testsourcename)
@@ -43,3 +54,4 @@ target_compile_options(${testname} PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-std=c++11>
 target_link_libraries(${testname} ${CMAKE_PROJECT_NAME}_static)
 add_test(${testname} ${EXECUTABLE_OUTPUT_PATH}/${testname})
 endforeach(i)
+endif()

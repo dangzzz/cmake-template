@@ -1,13 +1,9 @@
 #ifndef TEMPLATE_H_
-#define	TEMPLATE_H_
+#define TEMPLATE_H_
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
-
-
-
-
-
 
 #ifdef __cplusplus
 };
