@@ -47,7 +47,7 @@ math(EXPR testsourcelength "${testsourcelength}-1")
 
 foreach(i  RANGE ${testsourcelength})
 list(GET testsource ${i} testsourcename)
-string(REGEX REPLACE "\.cpp|\.c" "" testname ${testsourcename})
+string(REGEX REPLACE "\\.[^.]*$" "" testname ${testsourcename})
 message("-- add test ${testname}")
 add_executable(${testname} ${CMAKE_CURRENT_LIST_DIR}/test/src/${testsourcename})
 target_compile_options(${testname} PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-std=c++11> -g3 -Wall -O0 -D_GNU_SOURCE -D_REENTRANT)
